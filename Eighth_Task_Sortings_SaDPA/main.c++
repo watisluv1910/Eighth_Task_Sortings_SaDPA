@@ -1,12 +1,8 @@
 #include "array_class.h"
 
-#include <ctime>
 #include <chrono>
 
 #include <iostream>
-
-using std::string;
-using std::vector;
 
 inline void OutputMenu();
 void FillArray(Array& new_array);
@@ -25,7 +21,7 @@ int main()
 	std::cin.clear();
 	std::cin.ignore(std::numeric_limits<int>::max(), '\n');
 
-	Array my_array;
+	Array my_array; // Creating new object of custom Array class
 
 	while (path)
 	{
@@ -107,20 +103,27 @@ void SortArray(Array& my_array)
 		<< "2)Cocktail_sort.\n"
 		<< "3)Heap_sort.\n";
 	std::cout << "\nEnter the name of the sort from the list above:\n";
-	string sort_name;
+	std::string sort_name;
 	std::cin >> sort_name;
+
+	// cin.clear and cin.ignore are used to prevent fake input
 	std::cin.clear();
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+	// Timestamp for the start of sorting function (zero value by default)
 	auto begin = std::chrono::steady_clock::time_point();
+
+	// Timestamp for the end of sorting function (zero value by default)
 	auto end = std::chrono::steady_clock::time_point();
 
 	if (sort_name == "Selection_sort")
 	{
+		// Fixing a begin point in time:
 		begin = std::chrono::steady_clock::now();
 
 		my_array.SelectionSort();
 
+		// Fixing an end point in time:
 		end = std::chrono::steady_clock::now();
 	}
 	else if (sort_name == "Cocktail_sort")
@@ -144,8 +147,9 @@ void SortArray(Array& my_array)
 		std::cerr << "\nError (2): Wrong sorting name entered.\n"; // Error 2
 		return;
 	}
-
-	auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+	// Calculation of the final difference between 
+	// the start and end points of the time interval
+	auto elapsed_ms = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
 
 	std::cout << "\nThe sorting time is: " << elapsed_ms.count() << " ms.\n";
 }
